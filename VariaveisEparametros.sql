@@ -1,5 +1,3 @@
-*.sql linguist-language=SQL
-
 -- Criando procedure e definindo valores em suas variaveis. 
 USE `insight_places`;
 DROP procedure IF EXISTS `insight_places`.`novoAluguel_21`;

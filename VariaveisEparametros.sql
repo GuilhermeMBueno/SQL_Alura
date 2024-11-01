@@ -118,4 +118,10 @@ BEGIN
 END$$
 DELIMITER ;
 
+---- validação
+BEGIN 
+ DECLARE vDias INT DEFAULT 0; 
+ DECLARE vPrecoTotal DECIMAL(10,2);
+ 
+
 

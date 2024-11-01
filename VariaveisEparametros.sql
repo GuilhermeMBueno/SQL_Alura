@@ -116,7 +116,7 @@ BEGIN
     SET vMensagem = 'Aluguel incluído na base com sucesso!';
     SELECT vMensagem;
 END$$
-DELIMITER ;
+DELIMITER;
 
 ---- validação
 BEGIN 
@@ -125,3 +125,33 @@ BEGIN
  
 
 
+
+
+USE `insight_places`;
+DROP PROCEDURE IF EXISTS `insight_places`.`novoAluguel_31`;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `novoAluguel_25`
+    (vAluguel VARCHAR(10), vClienteNome VARCHAR(150), vHospedagem VARCHAR(10), 
+    vDataInicio DATE, vDataFinal DATE, vPrecoUnitario DECIMAL(10,2))
+BEGIN
+    DECLARE vCliente VARCHAR(10);
+    DECLARE vDias INTEGER DEFAULT 0;
+    DECLARE vPrecoTotal DECIMAL(10,2);
+    DECLARE vMensagem VARCHAR(100); -- Inicializando a variável de mensagem.
+    -- Tratamento para erro de chave estrangeira (código de erro 1452)
+    DECLARE EXIT HANDLER FOR 1452 
+    BEGIN
+        SET vMensagem = 'Problema de chave estrangeira associado a alguma entidade da base';
+        SELECT vMensagem;
+    END;
+    -- Cálculo de dias e preço total
+    SET vDias = DATEDIFF(vDataFinal, vDataInicio);
+    SET vPrecoTotal = vDias * vPrecoUnitario;
+    
+    -- Inserção do aluguel
+    INSERT INTO alugueis VALUES (vAluguel, vCliente, vHospedagem, vDataInicio, vDataFinal, vPrecoTotal);
+    -- Mensagem de sucesso
+    SET vMensagem = 'Aluguel incluído na base com sucesso!';
+    SELECT vMensagem;
+END$$
+DELIMITER;
